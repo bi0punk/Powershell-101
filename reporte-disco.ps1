@@ -574,13 +574,18 @@ function buildDirectoryTree_Recursive {
         # iterate all files
         $files | % {
             # create a custom object for each file, containing the name and size
+
+            # crear un objeto personalizado para cada archivo, que contenga el nombre y el tamaño
             $htmlFileObj = @{};
             $htmlFileObj.Type = "File";
             $htmlFileObj.Name = $_.Name;
             $htmlFileObj.SizeBytes = $_.Length
             # add the file object to the list of files at this level
+            # agregar el objeto de archivo a la lista de archivos en este nivel
+
             $currentParentDirInfo.Files += $htmlFileObj;
             # add the file's size to the running total for the current folder
+            # agregue el tamaño del archivo al total acumulado de la carpeta actual
             $currentParentDirInfo.SizeBytes= $currentParentDirInfo.SizeBytes + $_.Length
         }
     }
@@ -602,9 +607,16 @@ function bytesFormatter{
 .SYNOPSIS
 Used internally by the TreeSizeHtml function.
 Takes a number in bytes, and a string which must be one of B,KB,MB,GB,TB and returns a nicely formatted converted string.
+
+Utilizado internamente por la función TreeSizeHtml.
+Toma un número en bytes y una cadena que debe ser una de B, KB, MB, GB, TB y devuelve una cadena convertida con un formato agradable.
+
 .EXAMPLE
 bytesFormatter -bytes 102534233454 -notation "MB"
 returns "97,784 MB"
+
+bytesFormatter -bytes 102534233454 -notación "MB"
+devuelve "97.784 MB"
 #>
 param (
         [Parameter(Mandatory=$true)][decimal][AllowNull()] $bytes,
@@ -643,6 +655,9 @@ function roundOffAndAddCommas{
 .SYNOPSIS
 Used internally by the TreeSizeHtml function.
 Takes a number and returns it as a string with commas as thousand separators, rounded to 2dp
+
+Utilizado internamente por la función TreeSizeHtml.
+Toma un número y lo devuelve como una cadena con comas como separadores de miles, redondeado a 2dp
 #>
 param(
     [Parameter(Mandatory=$true)][decimal] $number)
@@ -656,6 +671,9 @@ function sbAppend{
 .SYNOPSIS
 Used internally by the TreeSizeHtml function.
 Shorthand function to append a string to the sb variable
+
+Utilizado internamente por la función TreeSizeHtml.
+Función abreviada para agregar una cadena a la variable sb
 #>
 param(
     [Parameter(Mandatory=$true)][string] $stringToAppend)
@@ -666,9 +684,16 @@ function outputNode_Recursive{
 <#
 .SYNOPSIS
 Used internally by the TreeSizeHtml function.
+Utilizado internamente por la función TreeSizeHtml.
+
+
 Used to output the folder tree to a StringBuffer in the format of an HTML unordered list which the TreeView library can display.
+Se utiliza para enviar el árbol de carpetas a un StringBuffer en el formato de una lista desordenada HTML que puede mostrar la biblioteca TreeView.
+
+
 .PARAMETER node
 The current node object, a temporary custom object which represents the current folder in the tree.
+El objeto de nodo actual, un objeto personalizado temporal que representa la carpeta actual en el árbol.
 #>
     param (
         [Parameter(Mandatory=$true)][Object] $node,
@@ -680,6 +705,7 @@ The current node object, a temporary custom object which represents the current 
     )
    
     # If there is more than one subfolder from this level, sort by size, largest first
+    # Si hay más de una subcarpeta de este nivel, ordenar por tamaño, la más grande primero
     if ($node.Folders.Length -gt 1)
     {
         $folders = $node.Folders | Sort -Descending {$_.SizeBytes}
@@ -693,6 +719,7 @@ The current node object, a temporary custom object which represents the current 
     {
         $_ = $folders[$i];
         # append to the string buffer a HTML List Item which represents the properties of this folder
+        # iterar cada subcarpeta
        
         $size = bytesFormatter $_.SizeBytes $displayUnits
         $name = $_.Name.replace("'","\'")
@@ -710,6 +737,7 @@ The current node object, a temporary custom object which represents the current 
         else
         {
             # call this function in the subfolder. It will return after the entire branch from here down is output to the string buffer
+            # llamar a esta función en la subcarpeta. Regresará después de que toda la rama desde aquí hacia abajo se envíe al búfer de cadena
             outputNode_Recursive $_ $sb $topFilesCountPerFolder $folderSizeFilterDepthThreshold $folderSizeFilterMinSize ($CurrentDepth+1);
         }
        
@@ -718,6 +746,7 @@ The current node object, a temporary custom object which represents the current 
        
     }
     # If there is more than one file on level, sort by size, largest first
+    # Si hay más de un archivo en el nivel, ordenar por tamaño, primero el más grande
     if ($node.Files.Length -gt 1)
     {
         $files = $node.Files | Sort -Descending {$_.SizeBytes}
@@ -726,13 +755,15 @@ The current node object, a temporary custom object which represents the current 
     {
         $files = $node.Files
     }
-    # iterate each file
+
+    # iterar cada archivo
     for ($i = 0; $i -lt $node.Files.Length; $i++)
     {
         if ($i -lt $topFilesCountPerFolder)
         {
             $_ = $files[$i];
             # append to the string buffer a HTML List Item which represents the properties of this file
+            # agregar al búfer de cadena un elemento de lista HTML que representa las propiedades de este archivo
             $size = bytesFormatter $_.SizeBytes $displayUnits
             $name = $_.Name.replace("'","\'")
             sbAppend "<li><span class='file'>$name ($size)</span></li>"
