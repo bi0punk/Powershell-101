@@ -144,12 +144,24 @@ The report will include all files and folders, no matter how many or how small
 TreeSizeHtml -paths "\\nas\ServerBackups" -reportOutputFolder "C:\temp" -htmlOutputFilenames "nas_server_backups.html" -topFilesCountPerFolder -1 -folderSizeFilterDepthThreshold -1
 Esto generará un informe sobre \\nas\ServerBackups en c:\temp\nas_server_backups.html
 El informe incluirá todos los archivos y carpetas, sin importar cuántos o cuán pequeños
+
+
 .EXAMPLE
 TreeSizeHtml -paths "E:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "e_drive_summary.html" -folderSizeFilterDepthThreshold 0 -folderSizeFilterMinSize 1073741824
 This will output a report on E:\ to c:\temp\e_drive_summary.html
 As soon as a branch accounts for less than 1GB of space, it is excluded from the report.
+
+TreeSizeHtml -paths "E:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "e_drive_summary.html" -folderSizeFilterDepthThreshold 0 -folderSizeFilterMinSize 1073741824
+Esto generará un informe en E:\ a c:\temp\e_drive_summary.html
+Tan pronto como una sucursal cuenta con menos de 1 GB de espacio, se excluye del informe.
+
+
+
 .NOTES
 You need to run this function as a user with permission to traverse the tree, otherwise you'll have sections of the tree labeled 'Permission Denied'
+
+Debe ejecutar esta función como un usuario con permiso para recorrer el árbol; de lo contrario, tendrá secciones del árbol etiquetadas como "Permiso denegado".
+#>
 #>
     param (
        [Parameter(Mandatory=$true)][String] $paths,
@@ -168,6 +180,7 @@ You need to run this function as a user with permission to traverse the tree, ot
    
 
     # check output folder exists
+    # comprobar que existe la carpeta de salida
     if (!($reportOutputFolder.EndsWith("\")))
     {
         $reportOutputFolder = $reportOutputFolder + "\"
@@ -181,6 +194,9 @@ You need to run this function as a user with permission to traverse the tree, ot
    
 
     # passing in "ALL" means that all fixed disks are to be included in the report
+
+    # pasar "TODOS" significa que todos los discos fijos se incluirán en el informe
+
     if ($paths -eq "E:\")
     {
         gwmi win32_logicaldisk -filter "drivetype = 3" | % {
@@ -196,6 +212,7 @@ You need to run this function as a user with permission to traverse the tree, ot
             throw "paths was not 'ALL', but htmlOutputFilenames was not defined. If paths are defined, then the same number of htmlOutputFileNames must be specified."
         }
         # split up the paths and htmlOutputFilenames parameters by comma
+        # dividir las rutas y los parámetros htmlOutputFilenames por comas
         $pathsArray = $paths.split(",");
         $htmlFilenamesArray = $htmlOutputFilenames.split(",");
         if (!($pathsArray.Length -eq $htmlFilenamesArray.Length))
@@ -212,20 +229,20 @@ You need to run this function as a user with permission to traverse the tree, ot
         $zipOutputFilename = ($reportOutputFolderInfo.FullName)+$zipOutputFilename
     }
    
-    write-host "Report Parameters"
+    write-host "Parámetros de informe"
     write-host "-----------------"
-    write-host "Locations to include:"
+    write-host "Ubicaciones para incluir:"
     for ($i=0;$i -lt $pathsArray.Length;$i++)
     {
         write-host "- $($pathsArray[$i]) to $($htmlFilenamesArray[$i])"        
     }
     if ($zipOutputFilename -eq $null -or $zipOutputFilename -eq '')
     {
-        write-host "Skipping zip file creation"
+        write-host "Omitir la creación del archivo zip"
     }
     else
     {
-        write-host "Report HTML files to be zipped to $zipOutputFilename"
+        write-host "Informar sobre los archivos HTML que se van a comprimir $zipOutputFilename"
     }
    
     write-host
