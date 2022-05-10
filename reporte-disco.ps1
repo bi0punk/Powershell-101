@@ -68,6 +68,15 @@ The default value is 20.
 Setting the value to -1 disables filtering and always displays all files. Note that this may generate HTML files large enough to crash your web browser!
 
 
+
+La configuración de este parámetro filtra la cantidad de archivos que se muestran en cada nivel.
+Por ejemplo, establecerlo en 10 significará que en cada nivel de carpeta, solo se mostrarán los 10 archivos más grandes en el informe.
+El conteo y el tamaño total de la suma de todos los demás archivos se mostrarán como un elemento.
+El valor predeterminado es 20.
+Establecer el valor en -1 deshabilita el filtrado y siempre muestra todos los archivos. ¡Tenga en cuenta que esto puede generar archivos HTML lo suficientemente grandes como para bloquear su navegador web!
+
+
+
 .PARAMETER folderSizeFilterDepthThreshold
 Enables a folder size filter which, in conjunction with folderSizeFilterMinSize, excludes from the report sections of the tree that are smaller than a particular size.
 This value determines how many subfolders deep to travel before applying the filter.
@@ -76,26 +85,65 @@ Note that this filter does not affect the accuracy of the report. The total size
 Setting the value to -1 disables filtering and always displays all files. Note that this may generate HTML files large enough to crash your web browser!
 
 
+
+folderSizeFilterMinSize, excluye del informe las secciones del árbol que son más pequeñas que un tamaño particular.
+Este valor determina a cuántas subcarpetas se debe viajar antes de aplicar el filtro.
+El valor predeterminado es 8
+Tenga en cuenta que este filtro no afecta la precisión del informe. El tamaño total de las ramas filtradas todavía se muestra en el informe, simplemente no puede profundizar más.
+Establecer el valor en -1 deshabilita el filtrado y siempre muestra todos los archivos. ¡Tenga en cuenta que esto puede generar archivos HTML lo suficientemente grandes como para bloquear su navegador web!
+
 .PARAMETER folderSizeFilterMinSize
 Used in conjunction with folderSizeFilterDepthThreshold to excludes from the report sections of the tree that are smaller than a particular size.
 This value is in bytes.
 The default value is 104857600 (100MB)
+
+
+Se usa junto con folderSizeFilterDepthThreshold para excluir del informe las secciones del árbol que son más pequeñas que un tamaño particular.
+Este valor está en bytes.
+El valor predeterminado es 104857600 (100 MB)
+
+
 .PARAMETER displayUnits
 A string which must be one of "B","KB","MB","GB","TB". This is the units to display in the report.
 The default value is MB
+
+Una cadena que debe ser una de "B","KB","MB","GB","TB". Estas son las unidades que se mostrarán en el informe.
+El valor predeterminado es MB
+
+
+
 .EXAMPLE
 TreeSizeHtml -paths "C:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "c_drive.html"
 This will output a report on C:\ to C:\temp\c_drive.html using the default filter settings.
+
+TreeSizeHtml -paths "C:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "c_drive.html"
+Esto generará un informe en C:\ a C:\temp\c_drive.html utilizando la configuración de filtro predeterminada.
+
+
+
 .EXAMPLE
 TreeSizeHtml -paths "C:\,D:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "c_drive.html,d_drive.html" -zipOutputFilename "report.zip"
 This will output two size reports:
 - A report on C:\ to C:\temp\c_drive.html
 - A report on D:\ to C:\temp\d_drive.html
 Both reports will be placed in a zip file at "C:\temp\report.zip"
+
+TreeSizeHtml -paths "C:\,D:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "c_drive.html,d_drive.html" -zipOutputFilename "report.zip"
+Esto generará informes de dos tamaños:
+- Un informe de C:\ a C:\temp\c_drive.html
+- Un informe de D:\ a C:\temp\d_drive.html
+Ambos informes se colocarán en un archivo zip en "C:\temp\report.zip"
+
+
+
 .EXAMPLE
 TreeSizeHtml -paths "\\nas\ServerBackups" -reportOutputFolder "C:\temp" -htmlOutputFilenames "nas_server_backups.html" -topFilesCountPerFolder -1 -folderSizeFilterDepthThreshold -1
 This will output a report on \\nas\ServerBackups to c:\temp\nas_server_backups.html
 The report will include all files and folders, no matter how many or how small
+
+TreeSizeHtml -paths "\\nas\ServerBackups" -reportOutputFolder "C:\temp" -htmlOutputFilenames "nas_server_backups.html" -topFilesCountPerFolder -1 -folderSizeFilterDepthThreshold -1
+Esto generará un informe sobre \\nas\ServerBackups en c:\temp\nas_server_backups.html
+El informe incluirá todos los archivos y carpetas, sin importar cuántos o cuán pequeños
 .EXAMPLE
 TreeSizeHtml -paths "E:\" -reportOutputFolder "C:\temp" -htmlOutputFilenames "e_drive_summary.html" -folderSizeFilterDepthThreshold 0 -folderSizeFilterMinSize 1073741824
 This will output a report on E:\ to c:\temp\e_drive_summary.html
