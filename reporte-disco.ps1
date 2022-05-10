@@ -554,14 +554,17 @@ function buildDirectoryTree_Recursive {
 
         $dirs | % {
             # create a new object for the subfolder to pass in
+            # crear un nuevo objeto para que la subcarpeta pase
             $subFolder = @{}
             if ($_.Name.length -lt 1)
             {
                 return;
             }
             # call this function in the subfolder. It will return after the entire branch from here down is traversed
+            # llamar a esta función en la subcarpeta. Regresará después de que se atraviese toda la rama desde aquí hacia abajo.
             buildDirectoryTree_Recursive $subFolder ($currentDirInfo + "\" + $_.Name);
             # add the subfolder object to the list of folders at this level
+            # agregar el objeto de subcarpeta a la lista de carpetas en este nivel
             $currentParentDirInfo.Folders += $subFolder;
             # the total size consumed from the subfolder down is now available.
             # Add it to the running total for the current folder
