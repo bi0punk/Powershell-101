@@ -538,14 +538,16 @@ function buildDirectoryTree_Recursive {
    
 
     # iterate all subdirectories
+    # iterar todos los subdirectorios
     try
     {
         $dirs = $dirInfo.GetDirectories() | where {!$_.Attributes.ToString().Contains("ReparsePoint")}; #don't include reparse points
         $files = $dirInfo.GetFiles();
         # remove any drive mappings created via subst above
+        # eliminar las asignaciones de unidades creadas a través de subst arriba
         if (!($substDriveLetter -eq $null))
         {
-            write-host "removing substitute drive $substDriveLetter"
+            write-host "eliminando la unidad sustituta $substDriveLetter"
             subst $substDriveLetter /D
             $substDriveLetter = $null
         }
