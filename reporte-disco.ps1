@@ -209,7 +209,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
     {
         if ($htmlOutputFilenames -eq $null -or $htmlOutputFilenames -eq '')
         {
-            throw "paths was not 'ALL', but htmlOutputFilenames was not defined. If paths are defined, then the same number of htmlOutputFileNames must be specified."
+            throw "las rutas no eran 'TODAS', pero htmlOutputFilenames no estaba definido. Si las rutas están definidas, entonces se debe especificar el mismo número de htmlOutputFileNames".
         }
         # split up the paths and htmlOutputFilenames parameters by comma
         # dividir las rutas y los parámetros htmlOutputFilenames por comas
@@ -217,7 +217,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         $htmlFilenamesArray = $htmlOutputFilenames.split(",");
         if (!($pathsArray.Length -eq $htmlFilenamesArray.Length))
         {
-            Throw "$($pathsArray.Length) paths were specified but $($htmlFilenamesArray.Length) htmlOutputFilenames. The number of HTML output filenames must be the same as the number of paths specified"
+            Throw "$($pathsArray.Length) se especificaron rutas pero $($htmlFilenamesArray.Length) htmlOutputFilenames. The number of HTML output filenames must be the same as the number of paths specified"
         }
     }
     for ($i=0;$i -lt $htmlFilenamesArray.Length; $i++)
@@ -246,23 +246,23 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
     }
    
     write-host
-    write-host "Filters:"
+    write-host "Filtros:"
     if ($topFilesCountPerFolder -eq -1)
     {
-        write-host "- Display all files"
+        write-host "- Mostrar todos los archivos"
     }
     else
     {
-        write-host "- Displaying largest $topFilesCountPerFolder files per folder"
+        write-host "- Visualización de los archivos $topFilesCountPerFolder más grandes por carpeta"
     }
    
     if ($folderSizeFilterDepthThreshold -eq -1)
-    {
-        write-host "- Displaying entire folder structure"
+    { write-host "- Visualización de toda la estructura de carpetas"
+       
     }
     else
     {
-        write-host "- After a depth of $folderSizeFilterDepthThreshold folders, branches with a total size less than $folderSizeFilterMinSize bytes are excluded"
+        write-host "- Después de una profundidad de carpetas de $folderSizeFilter Depth Threshold, se excluyen las ramas con un tamaño total inferior a $folderSizeFilterMinSize bytes"
     }    
        
     write-host
@@ -271,16 +271,19 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
    
         $_ = $pathsArray[$i];
         # get the Directory info for the root directory
+        # obtener la información del directorio para el directorio raíz
         $dirInfo = New-Object System.IO.DirectoryInfo $_
         # test that it exists, throw error if it doesn't
+        # probar que existe, arrojar error si no existe
         if (!$dirInfo.Exists)
         {
-            Throw "Path $dirInfo does not exist"
+            Throw "La ruta $dirInfo no existe"
         }
        
        
-        write-host "Building object tree for path $_"
+        write-host "Árbol de objetos de construcción para la ruta $_"
         # traverse the folder structure and build an in-memory tree of objects
+        # recorrer la estructura de carpetas y construir un árbol de objetos en memoria
         $treeStructureObj = @{}
         buildDirectoryTree_Recursive $treeStructureObj $_
         $treeStructureObj.Name = $dirInfo.FullName; #.replace("\","\\");        
@@ -288,6 +291,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         write-host "Building HTML output"
        
         # initialise a StringBuffer. The HTML will be written to here
+        # inicializar un StringBuffer. El HTML se escribirá aquí.
         $sb = New-Object -TypeName "System.Text.StringBuilder";
         $fecha = Get-Date -Format D
 
@@ -308,7 +312,12 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         # output the HTML and javascript for the report page to the StringBuffer
         # below here are mostly comments for the javascript code, which  
         # runs in the browser of the user viewing this report
-        #$DiscInfo = Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType=3" | Select-Object Id,Tipo,Nombre, @{N="Capacidad Total en GB";e={[math]::Round($($_.Size) / 1073741824,0)}}, @{N="Espacio Libre";e={[math]::Round($($_.FreeSpace) / 1073741824,0)}}, @{N="% Libre";e={[math]::Round($($_.FreeSpace) / $_.Size * 100,1)}} | ConvertTo-Html -As List -Property DeviceID,DriveType,VolumeName,DiskSizeGB,FreeSpaceGB,FreePorcentaje -Fragment -PreContent
+        
+        # enviar el HTML y javascript para la página del informe al StringBuffer
+        # a continuación aquí hay principalmente comentarios para el código javascript, que
+        # se ejecuta en el navegador del usuario que está viendo este informe
+
+
         sbAppend "<!DOCTYPE html>"
         sbAppend "<html>"
         sbAppend "<head>"
@@ -392,7 +401,8 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "</ul>"
         sbAppend "</div>"
         sbAppend "<div id='error'></div>"
-# include a loading message and spinny icon while jsTree initialises
+        # include a loading message and spinny icon while jsTree initialises
+        # incluir un mensaje de carga y un ícono giratorio mientras jsTree se inicializa
         sbAppend "<div id='loading'>Loading...<img src='https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/throbber.gif'/></div>"
         sbAppend "<div id='jstree'>"
         sbAppend "<ul id='tree'>"
@@ -400,9 +410,11 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         $size = bytesFormatter $treeStructureObj.SizeBytes $displayUnits
         $name = $treeStructureObj.Name.replace("'","\'")        
         # output the name and total size of the root folder
+        # muestra el nombre y el tamaño total de la carpeta raíz
         sbAppend "   <li><span class='folder'>$name ($size)</span>"
         sbAppend "     <ul>"
         # recursively build the javascript object in the format that jsTree uses
+        # construye recursivamente el objeto javascript en el formato que usa jsTree
         outputNode_Recursive $treeStructureObj $sb $topFilesCountPerFolder $folderSizeFilterDepthThreshold $folderSizeFilterMinSize 1;
         sbAppend "     </ul>"
         sbAppend "   </li>"
@@ -417,6 +429,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
        
        
         # finally, output the contents of the StringBuffer to the filesystem
+        # finalmente, envíe el contenido del StringBuffer al sistema de archivos
         $outputFileName = $htmlFilenamesArray[$i]
         write-host "Writing HTML to file $outputFileName"
        
@@ -430,6 +443,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
     else
     {
         # create zip file
+        # crear archivo zip
     set-content $zipOutputFilename ("PK" + [char]5 + [char]6 + ("$([char]0)" * 18))
     (dir $zipOutputFilename).IsReadOnly = $false
        
@@ -444,6 +458,12 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
             # the zip is asynchronous, so we have to wait and keep checking (ugly)
             # use a DirectoryInfo object to retrieve just the file name within the path,
             # this is what we check for every second
+
+            # el zip es asíncrono, así que tenemos que esperar y seguir revisando (feo)
+            # usar un objeto DirectoryInfo para recuperar solo el nombre del archivo dentro de la ruta,
+            # esto es lo que verificamos cada segundo
+
+
             $fileInfo = New-Object System.IO.DirectoryInfo $htmlFilenamesArray[$i]
            
             $size = $zipPackage.Items().Item($fileInfo.Name).Size
@@ -463,17 +483,23 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
 #.SYNOPSIS
 #
 # Used internally by the TreeSizeHtml function.
-#
 # Used to perform Depth-First (http://en.wikipedia.org/wiki/Depth-first_search) search of the entire folder structure.
 # This allows the cumulative total of space used to be added up during backtracking.
 #
+# Utilizado internamente por la función TreeSizeHtml.
+# Se utiliza para realizar una búsqueda en profundidad (http://en.wikipedia.org/wiki/Depth-first_search) de toda la estructura de carpetas.
+# Esto permite que el total acumulativo de espacio utilizado se sume durante el retroceso.
+
+
 #.PARAMETER currentNode
 #
 # The current node object, a temporary custom object which represents the current folder in the tree.
+# El objeto de nodo actual, un objeto personalizado temporal que representa la carpeta actual en el árbol.
 #
 #.PARAMETER currentPath
 #
 # The path to the current folder in the tree
+# La ruta a la carpeta actual en el árbol
 
 function buildDirectoryTree_Recursive {  
         param (  
@@ -483,6 +509,7 @@ function buildDirectoryTree_Recursive {
     $substDriveLetter = $null
    
     # if the current directory length is too long, try to work around the feeble Windows size limit by using the subst command
+    # si la longitud del directorio actual es demasiado larga, intente sortear el débil límite de tamaño de Windows usando el comando subst
     if ($currentDirInfo.Length -gt 248)
     {
         Write-Host "$currentDirInfo has a length of $($currentDirInfo.Length), greater than the maximum 248, invoking workaround"
@@ -501,6 +528,7 @@ function buildDirectoryTree_Recursive {
     }
 
     # add its details to the currentParentDirInfo object
+    # agregar sus detalles al objeto currentParentDirInfo
     $currentParentDirInfo.Files = @()
     $currentParentDirInfo.Folders = @()
     $currentParentDirInfo.SizeBytes = 0;
