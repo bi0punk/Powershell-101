@@ -299,11 +299,11 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
  
         foreach($z in $partitions)
         {  
-            $particion =  "Unidad: $($z.Caption)" ;    
-            $c_total =  "Capacidad Total:     $($z.Capacity_GB)  GB" ;    
-            $e_libre =  "Espacio Libre:       $($z.FreeSpace_GB) GB" ;    
-            $per_usado =  "Porcentaje Usado:  $($z.PercentUsed)  %" ;    
-            $per_libre =  "Porcentaje Libre:  $($z.PercentFree)  %" ;   
+            $particion = "$($z.Caption)" ;    
+            $c_total =  "$($z.Capacity_GB)  GB" ;    
+            $e_libre =  "$($z.FreeSpace_GB) GB" ;    
+            $per_usado =  "$($z.PercentUsed)  %" ;    
+            $per_libre =  "$($z.PercentFree)  %" ;   
         }
 
        
@@ -412,6 +412,10 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'>Porcentaje Usado</th>"
         sbAppend            "<td>$per_usado</td>"
+        sbAppend         "</tr>"
+        sbAppend        "<tr>"
+        sbAppend            "<th scope='row'>Porcentaje Libre</th>"
+        sbAppend            "<td>$per_libre</td>"
         sbAppend         "</tr>"
         sbAppend    "</tbody>"
         sbAppend "</table>"
