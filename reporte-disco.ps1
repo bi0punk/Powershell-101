@@ -378,6 +378,12 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "}"
         sbAppend "</style>"
 
+        sbAppend ".card-body {"
+        sbAppend  "display: grid;"
+        sbAppend  "place-content: center;"
+        sbAppend "}"
+
+
         sbAppend "<div id='kd' class='card'>"
         sbAppend    "<center><h4 class='card-header'>Reporte Uso de Discos - $fecha - $fecha2</h4></center>"
         $machine = hostname
