@@ -376,26 +376,28 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "@media (min-width: 992px) {"
         sbAppend ".rounded-lg-3 { border-radius: .3rem; }"
         sbAppend "}"
-        sbAppend "</style>"
-
-        sbAppend ".card-body {"
+        sbAppend ".jstree {"
         sbAppend  "display: grid;"
         sbAppend  "place-content: center;"
         sbAppend "}"
+        sbAppend "</style>"
+
+      
 
 
-        sbAppend "<div id='kd' class='card'>"
-        sbAppend    "<center><h4 class='card-header'>Reporte Uso de Discos - $fecha - $fecha2</h4></center>"
+        sbAppend "<div id='kd' class='card'>"                                                                 #1 abierto
+        sbAppend    "<center><h4 class='card-header'>Reporte Uso de Discos - $fecha</h4></center>"
         $machine = hostname
         
 
-        sbAppend "<div class='px-4 py-5 my-5 text-center'>"
-        sbAppend "<img class='d-block mx-auto mb-4' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kyndryl_logo.svg/1920px-Kyndryl_logo.svg.png' alt='' width='140' height='45'>"
+        sbAppend "<div class='px-4 py-5 my-5 text-center'>"                                                    #2 abierto
+        sbAppend "<img class='d-block mx-auto mb-4' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kyndryl_logo.svg/1920px-Kyndryl_logo.svg.png' alt='' width='140' height='50'>" 
+        sbAppend "<h3 class='display-5 fw-bold'>Server: $machine</h3>"
+        sbAppend "<img class='d-block mx-auto mb-4' src='https://cdn.icon-icons.com/icons2/2970/PNG/512/server_cloud_hosting_data_icon_186842.png' alt='' width='64' height='64'>"
+        sbAppend "<h3 class='display-5 fw-bold'></h3>"
 
-        sbAppend "<h3 class='display-5 fw-bold'>Servidor: $machine</h3>"
-
-        sbAppend "<div class='col-lg-6 mx-auto'>"
-        sbAppend "<div class='d-grid gap-2 d-sm-flex justify-content-sm-center'>"
+        sbAppend "<div class='col-lg-6 mx-auto'>"                                                              #3 abierto
+        sbAppend "<div class='d-grid gap-2 d-sm-flex justify-content-sm-center'>"                              #4 abierto
         sbAppend "<table class='table table-sm table-striped'>"
         sbAppend    "<thead>"
         sbAppend        "<tr>"
@@ -420,37 +422,36 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend            "<th scope='row'>Porcentaje Libre</th>"
         sbAppend            "<td scope='row'>$per_libre</td>"
         sbAppend        "</tr>"
-        sbAppend        "<tr>"
-        sbAppend            "<th colspan='2'>Arbol de directorios</th>"
-        sbAppend        "</tr>"
         sbAppend    "</tbody>"
         sbAppend "</table>"
-        sbAppend "</div>"
-        sbAppend "</div>"
+        sbAppend "</div>"                                                                                              #cierra4
+        sbAppend "</div>"                                                                                               #cierra3
+        sbAppend "</div>"                                                                                              #cierra2
+        sbAppend "</div>"                                                                                              #cierra1
 
-        sbAppend "<div class='card'>"
-        sbAppend "<div class='card-body'>"
 
-        sbAppend "This is some text within a card body."
-
-        sbAppend "<div id='error'></div>"
+        sbAppend "<div class='card'>" #1
+        sbAppend "<div class='card-body'>" #2
+        sbAppend "<div id='error'></div>" #cerrado
         # incluir un mensaje de carga y un ícono giratorio mientras jsTree se inicializa
-        sbAppend "<div id='loading'>Loading...<img src='https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/throbber.gif'/></div>"
-        sbAppend "<div id='jstree'>"
-        sbAppend "<ul id='tree'>"
+        sbAppend "<div id='loading'>Loading...<img src='https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/throbber.gif'/></div>" #cerrado
+        sbAppend "<div id='jstree'>"  #3 #abierto
+
+        sbAppend "<ul id='tree'>" 
         $size = bytesFormatter $treeStructureObj.SizeBytes $displayUnits
         $name = $treeStructureObj.Name.replace("'","\'")        
         # muestra el nombre y el tamaño total de la carpeta raíz
         sbAppend "   <li><span class='folder'>$name ($size)</span>"
         sbAppend "     <ul>"
-        # construye recursivamente el objeto javascript en el formato que usa jsTree
-        outputNode_Recursive $treeStructureObj $sb $topFilesCountPerFolder $folderSizeFilterDepthThreshold $folderSizeFilterMinSize 1;
+        outputNode_Recursive $treeStructureObj $sb $topFilesCountPerFolder $folderSizeFilterDepthThreshold $folderSizeFilterMinSize 1; # construye recursivamente el objeto javascript en el formato que usa jsTree
         sbAppend "     </ul>"
         sbAppend "   </li>"
         sbAppend "</ul>"
         sbAppend "</div>"
+        sbAppend "<div class='card-footer text-muted text-center'>"
+        sbAppend "Informe generado:  $fecha2"
         sbAppend "</div>"
-        sbAppend "</div>"
+
         sbAppend "<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js' integrity='sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p' crossorigin='anonymous'></script"
         sbAppend "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js' integrity='sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF' crossorigin='anonymous'></script>"
         sbAppend "</body>"
