@@ -415,7 +415,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend         "</tr>"
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'>Porcentaje Libre</th>"
-        sbAppend            "<td>$per_libre</td>"
+        sbAppend            "<td scope='row'>$per_libre</td>"
         sbAppend         "</tr>"
         sbAppend    "</tbody>"
         sbAppend "</table>"
@@ -428,28 +428,9 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js' integrity='sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF' crossorigin='anonymous'></script>"
         sbAppend "</main>"
         sbAppend "</div>"
-        sbAppend "<div id='header' class='card'>"
-        sbAppend    "<div class='card-body'>"
-       
-                 
-        sbAppend        "<br>"           
-        sbAppend        "<h5 class='card-title'>Servidor: $machine</h5>"
-        sbAppend        "<h5>$DiscInfo</h5>"
-        sbAppend        "<h5 class='card-title'>Directorio Raiz: ($($dirInfo.FullName))</h5>"
-
-        sbAppend        "<p>$c_total</p>"
-        sbAppend        "<p>$e_libre</p>"
-        sbAppend        "<p>$per_usado</p>"
-        sbAppend        "<p>$per_libre</p>"
-        sbAppend        "<p class='card-text'></p>"
-        sbAppend    "</div>"
-
-
-
-        sbAppend    "<div class='card-footer bg-transparent'>Filtros de informes"
-        sbAppend        "<p class='card-text'></p>"
-
-        sbAppend    "</div>"
+        sbAppend "<div class='card-footer bg-transparent'>Filtros de informes"
+        sbAppend    "<p class='card-text'></p>"
+        sbAppend "</div>"
 
         sbAppend "<div class='card'>"
         sbAppend "<ul>"
