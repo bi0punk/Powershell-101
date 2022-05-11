@@ -380,8 +380,6 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
 
         sbAppend "<div id='kd' class='card'>"
         sbAppend    "<center><h4 class='card-header'>Reporte Uso de Discos - $fecha - $fecha2</h4></center>"
-
-        sbAppend "<main>"
         $machine = hostname
         
 
@@ -391,9 +389,8 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<h3 class='display-5 fw-bold'>Servidor: $machine</h3>"
 
         sbAppend "<div class='col-lg-6 mx-auto'>"
-        sbAppend "<p class='lead mb-4'></p>"
         sbAppend "<div class='d-grid gap-2 d-sm-flex justify-content-sm-center'>"
-        sbAppend "<table class='table table-striped'>"
+        sbAppend "<table class='table table-sm table-striped'>"
         sbAppend    "<thead>"
         sbAppend        "<tr>"
         sbAppend            "<th scope='col'>Directorio Raiz</th>"
@@ -412,154 +409,44 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'>Porcentaje Usado</th>"
         sbAppend            "<td>$per_usado</td>"
-        sbAppend         "</tr>"
+        sbAppend        "</tr>"
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'>Porcentaje Libre</th>"
         sbAppend            "<td scope='row'>$per_libre</td>"
-        sbAppend         "</tr>"
+        sbAppend        "</tr>"
+        sbAppend        "<tr>"
+        sbAppend            "<th colspan='2'>Arbol de directorios</th>"
+        sbAppend        "</tr>"
         sbAppend    "</tbody>"
         sbAppend "</table>"
         sbAppend "</div>"
         sbAppend "</div>"
-        sbAppend "</div>"
-
-
-        sbAppend "<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js' integrity='sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p' crossorigin='anonymous'></script"
-        sbAppend "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js' integrity='sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF' crossorigin='anonymous'></script>"
-        sbAppend "</main>"
-        sbAppend "</div>"
-        sbAppend "<div class='card-footer bg-transparent'>Filtros de informes"
-        sbAppend    "<p class='card-text'></p>"
-        sbAppend "</div>"
 
         sbAppend "<div class='card'>"
-        sbAppend "<ul>"
-       
+        sbAppend "<div class='card-body'>"
 
+        sbAppend "This is some text within a card body."
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        if ($topFilesCountPerFolder -eq -1)
-        {
-            sbAppend "<li>Visualización de todos los archivos</li>"
-        }
-        else
-        {
-            sbAppend "<li>Visualizacion de los $topFilesCountPerFolder archivos mas grandes por directorio</li>"
-        }
-       
-        if ($folderSizeFilterDepthThreshold -eq -1)
-        {
-            sbAppend "<li>Visualizacion de la estructura de carpetas completa</li>"
-        }
-        else
-        {
-            sbAppend "<li>Despues de una profundidad de directorios de $folderSizeFilterDepthThreshold, se excluyen las ramas con un size total inferior a $folderSizeFilterMinSize bytes</li>"
-        }    
-       
-        sbAppend "</ul>"
-        sbAppend "</div>"
         sbAppend "<div id='error'></div>"
-        # include a loading message and spinny icon while jsTree initialises
         # incluir un mensaje de carga y un ícono giratorio mientras jsTree se inicializa
         sbAppend "<div id='loading'>Loading...<img src='https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/throbber.gif'/></div>"
         sbAppend "<div id='jstree'>"
         sbAppend "<ul id='tree'>"
-       
         $size = bytesFormatter $treeStructureObj.SizeBytes $displayUnits
         $name = $treeStructureObj.Name.replace("'","\'")        
-        # output the name and total size of the root folder
         # muestra el nombre y el tamaño total de la carpeta raíz
         sbAppend "   <li><span class='folder'>$name ($size)</span>"
         sbAppend "     <ul>"
-        # recursively build the javascript object in the format that jsTree uses
         # construye recursivamente el objeto javascript en el formato que usa jsTree
         outputNode_Recursive $treeStructureObj $sb $topFilesCountPerFolder $folderSizeFilterDepthThreshold $folderSizeFilterMinSize 1;
         sbAppend "     </ul>"
         sbAppend "   </li>"
         sbAppend "</ul>"
         sbAppend "</div>"
-       
-       
-       
-       
+        sbAppend "</div>"
+        sbAppend "</div>"
+        sbAppend "<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js' integrity='sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p' crossorigin='anonymous'></script"
+        sbAppend "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js' integrity='sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF' crossorigin='anonymous'></script>"
         sbAppend "</body>"
         sbAppend "</html>"
        
