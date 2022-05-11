@@ -434,12 +434,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js' integrity='sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF' crossorigin='anonymous'></script>"
         sbAppend "</main>"
         sbAppend "</div>"
-
-
         sbAppend "<div id='header' class='card'>"
-        
-     
-        sbAppend    "<h5 class='card-header'>Reporte Uso de Discos - $fecha</h5>"
         sbAppend    "<div class='card-body'>"
        
                     $machine = hostname
