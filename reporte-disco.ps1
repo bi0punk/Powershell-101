@@ -168,7 +168,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
        [Parameter(Mandatory=$true)][String] $reportOutputFolder,
        [Parameter(Mandatory=$false)][String] $htmlOutputFilenames = $null,
        [Parameter(Mandatory=$false)][String] $zipOutputFilename = $null,
-       [Parameter(Mandatory=$false)][int] $topFilesCountPerFolder = 10,
+       [Parameter(Mandatory=$false)][int] $topFilesCountPerFolder = 5,
        [Parameter(Mandatory=$false)][int] $folderSizeFilterDepthThreshold = 2,
        [Parameter(Mandatory=$false)][long] $folderSizeFilterMinSize = 104857600,
        [Parameter(Mandatory=$false)][String] $displayUnits = "GB"
@@ -209,7 +209,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
     {
         if ($htmlOutputFilenames -eq $null -or $htmlOutputFilenames -eq '')
         {
-            throw "las rutas no eran 'TODAS', pero htmlOutputFilenames no estaba definido. Si las rutas están definidas, entonces se debe especificar el mismo número de htmlOutputFileNames".
+            throw "las rutas no eran 'TODAS', pero htmlOutputFilenames no estaba definido. Si las rutas están definidas, entonces se debe especificar el mismo número de htmlOutputFileNames"
         }
         # split up the paths and htmlOutputFilenames parameters by comma
         # dividir las rutas y los parámetros htmlOutputFilenames por comas
@@ -294,6 +294,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         # inicializar un StringBuffer. El HTML se escribirá aquí.
         $sb = New-Object -TypeName "System.Text.StringBuilder";
         $fecha = Get-Date -Format D
+        $fecha2 = Get-Date
 
 
 
@@ -334,7 +335,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<script src='https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js' type='text/javascript'></script>"
         sbAppend "<script type='text/javascript'>`$(document).ready(function(){var a=`$('#jstree'),b=`$('#loading');a.on('loading.jstree',function(){return b.removeClass('hidden')}).on('loaded.jstree',function(){return b.addClass('hidden')}),a.jstree()})</script>"
         sbAppend "<script typw='text/javascript'>`$('#jstree').jstree({'core' : {'themes': {'name': 'default-dark','dots': true,'icons': true, 'checkbox':true}</script>"
-
+        sbAppend "<meta name='theme-color' content='#7952b3'>"
 
         sbAppend "<style>"
         sbAppend ".hidden {"
@@ -350,13 +351,97 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "}"
         sbAppend "</style>"
 
+        sbAppend "<style>"
+        sbAppend "  .bd-placeholder-img {"
+        sbAppend "  font-size: 1.125rem;"
+        sbAppend "  text-anchor: middle;"
+        sbAppend "  -webkit-user-select: none;"
+        sbAppend "  -moz-user-select: none;"
+        sbAppend "  user-select: none;"
+        sbAppend "}"
+
+        sbAppend  "@media (min-width: 768px) {"
+        sbAppend  ".bd-placeholder-img-lg {"
+        sbAppend  "font-size: 3.5rem;"
+        sbAppend "}"
+        sbAppend "}"
+
+        sbappend "</style>"
+        sbAppend "<style>"
+        sbAppend ".b-example-divider {"
+        sbAppend "height: 3rem;"
+        sbAppend "background-color: rgba(0, 0, 0, .1);"
+        sbAppend "border: solid rgba(0, 0, 0, .15);"
+        sbAppend "border-width: 1px 0;"
+        sbAppend "box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);"
+        sbAppend "}"
+
+        sbAppend "@media (min-width: 992px) {"
+        sbAppend ".rounded-lg-3 { border-radius: .3rem; }"
+        sbAppend "}"
+        sbAppend "</style>"
+
+        sbAppend "<div id='kd' class='card'>"
+        sbAppend    "<center><h4 class='card-header'>Reporte Uso de Discos - $fecha - $fecha2</h4></center>"
+
+        sbAppend "<main>"
+        
+
+        sbAppend "<div class='px-4 py-5 my-5 text-center'>"
+        sbAppend "<img class='d-block mx-auto mb-4' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kyndryl_logo.svg/1920px-Kyndryl_logo.svg.png' alt='' width='140' height='45'>"
+
+        sbAppend "<h3 class='display-5 fw-bold'>Centered hero</h3>"
+
+        sbAppend "<div class='col-lg-6 mx-auto'>"
+        sbAppend "<p class='lead mb-4'></p>"
+        sbAppend "<div class='d-grid gap-2 d-sm-flex justify-content-sm-center'>"
+        sbAppend "<table class='table table-striped'>"
+        sbAppend    "<thead>"
+        sbAppend        "<tr>"
+        sbAppend            "<th scope='col'>#</th>"
+        sbAppend            "<th scope='col'>First</th>"
+        sbAppend            "<th scope='col'>Last</th>"
+        sbAppend            "<th scope='col'>Handle</th>"
+        sbAppend        "</tr>"
+        sbAppend    "</thead>"
+        sbAppend    "<tbody>"
+        sbAppend        "<tr>"
+        sbAppend            "<th scope='row'>1</th>"
+        sbappend            "<td>Mark</td>"
+        sbAppend            "<td>Otto</td>"
+        sbAppend            "<td>@mdo</td>"
+        sbAppend        "</tr>"
+        sbAppend        "<tr>"
+        sbAppend            "<th scope='row'>2</th>"
+        sbAppend            "<td>Jacob</td>"
+        sbAppend            "<td>Thornton</td>"
+        sbAppend            "<td>@fat</td>"
+        sbAppend        "</tr>"
+        sbAppend        "<tr>"
+        sbAppend            "<th scope='row'>3</th>"
+        sbAppend            "<td>Larry</td>"
+        sbAppend            "<td>the Bird</td>"
+        sbAppend            "<td>@twitter</td>"
+        sbAppend         "</tr>"
+        sbAppend    "</tbody>"
+        sbAppend "</table>"
+        sbAppend "</div>"
+        sbAppend "</div>"
+        sbAppend "</div>"
+
+
+        sbAppend "<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js' integrity='sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p' crossorigin='anonymous'></script"
+        sbAppend "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js' integrity='sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF' crossorigin='anonymous'></script>"
+        sbAppend "</main>"
+        sbAppend "</div>"
+
 
         sbAppend "<div id='header' class='card'>"
         
      
         sbAppend    "<h5 class='card-header'>Reporte Uso de Discos - $fecha</h5>"
         sbAppend    "<div class='card-body'>"
-        sbAppend    "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kyndryl_logo.svg/1920px-Kyndryl_logo.svg.png' width='130' height='50'>"
+       
                     $machine = hostname
         sbAppend        "<br>"           
         sbAppend        "<h5 class='card-title'>Servidor: $machine</h5>"
