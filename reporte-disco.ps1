@@ -12,9 +12,6 @@ Un clon de Powershell de la clásica herramienta de administración TreeSize. Fu
 Envía el informe a uno o más archivos HTML interactivos y, opcionalmente, los comprime en un solo archivo zip.
 Requiere Powershell 2. Para servidores Windows 2003, instale http://support.microsoft.com/kb/968930
 Autor: James Weakley (jameswillisweakley@gmail.com)
-
-
-
 .DESCRIPTION
 
 Recursively iterates a folder structure and reports on the space consumed below each individual folder.
@@ -385,12 +382,13 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend    "<center><h4 class='card-header'>Reporte Uso de Discos - $fecha - $fecha2</h4></center>"
 
         sbAppend "<main>"
+        $machine = hostname
         
 
         sbAppend "<div class='px-4 py-5 my-5 text-center'>"
         sbAppend "<img class='d-block mx-auto mb-4' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Kyndryl_logo.svg/1920px-Kyndryl_logo.svg.png' alt='' width='140' height='45'>"
 
-        sbAppend "<h3 class='display-5 fw-bold'>Centered hero</h3>"
+        sbAppend "<h3 class='display-5 fw-bold'>Servidor: $machine</h3>"
 
         sbAppend "<div class='col-lg-6 mx-auto'>"
         sbAppend "<p class='lead mb-4'></p>"
@@ -398,26 +396,22 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<table class='table table-striped'>"
         sbAppend    "<thead>"
         sbAppend        "<tr>"
-        sbAppend            "<th scope='col'></th>"
-        sbAppend            "<th scope='col'>First</th>"
-        sbAppend            "<th scope='col'>Last</th>"
+        sbAppend            "<th scope='col'>Directorio Raiz</th>"
+        sbAppend            "<th scope='col'>($($dirInfo.FullName))</th>"
         sbAppend        "</tr>"
         sbAppend    "</thead>"
         sbAppend    "<tbody>"
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'></th>"
         sbappend            "<td>Mark</td>"
-        sbAppend            "<td>Otto</td>"
         sbAppend        "</tr>"
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'></th>"
         sbAppend            "<td>Jacob</td>"
-        sbAppend            "<td>Thornton</td>"
         sbAppend        "</tr>"
         sbAppend        "<tr>"
         sbAppend            "<th scope='row'></th>"
         sbAppend            "<td>Larry</td>"
-        sbAppend            "<td>the Bird</td>"
         sbAppend         "</tr>"
         sbAppend    "</tbody>"
         sbAppend "</table>"
@@ -433,7 +427,7 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<div id='header' class='card'>"
         sbAppend    "<div class='card-body'>"
        
-                    $machine = hostname
+                 
         sbAppend        "<br>"           
         sbAppend        "<h5 class='card-title'>Servidor: $machine</h5>"
         sbAppend        "<h5>$DiscInfo</h5>"
@@ -456,6 +450,87 @@ Debe ejecutar esta función como un usuario con permiso para recorrer el árbol;
         sbAppend "<div class='card'>"
         sbAppend "<ul>"
        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         if ($topFilesCountPerFolder -eq -1)
         {
             sbAppend "<li>Visualización de todos los archivos</li>"
